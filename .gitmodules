@@ -1,0 +1,3 @@
+[submodule "emacs.d.symlink"]
+	path = emacs.d.symlink
+	url = http://github.com/syl20bnr/spacemacs
