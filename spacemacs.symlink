@@ -23,7 +23,10 @@
      ;; markdown
      ;; org
      ;; syntax-checking
-     company-mode git haskell html javascript ruby ycmd fsharp go csharp
+     company-mode (git :variables
+                       git-enable-github-support t
+                       git-gutter-use-fringe t)
+                  haskell html javascript ruby ycmd fsharp go csharp markdown
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
