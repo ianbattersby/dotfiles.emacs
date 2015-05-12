@@ -26,7 +26,8 @@
      company-mode (git :variables
                        git-enable-github-support t
                        git-gutter-use-fringe t)
-                  haskell html javascript ruby ycmd fsharp go csharp markdown
+                  haskell html javascript ruby (ycmd :variables
+                                                ycmd-server-command "/usr/share/vim/vimfiles/third_party/ycmd") fsharp go csharp markdown auto-completion
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
