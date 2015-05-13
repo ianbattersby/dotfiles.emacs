@@ -157,6 +157,8 @@ layers configuration."
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
   (spacemacs/toggle-transparent-frame)
   (spacemacs/toggle-fullscreen-frame)
+  (setq magit-repo-dirs '("~/code/"))
+  (setq-default git-gutter-fr:side 'left-fringe)
   ;;(setq-default omnisharp-server-executable-path "~/code/omnisharp-server/bin/debug")
   ;; (evil-define-key 'insert omnisharp-mode-map (kbd "M-.") 'omnisharp-auto-complete)
   ;; (evil-define-key 'normal omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
