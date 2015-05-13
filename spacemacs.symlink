@@ -23,12 +23,20 @@
      ;; markdown
      ;; org
      ;; syntax-checking
+     ;; (ycmd :variables ycmd-server-command "/usr/share/vim/vimfiles/third_party/ycmd") 
      (git :variables
-                       git-enable-github-support t
-                       git-gutter-use-fringe t)
-                  haskell html javascript ruby (ycmd :variables
-                                                ycmd-server-command "/usr/share/vim/vimfiles/third_party/ycmd") fsharp go csharp markdown (auto-completion :variables
-                                                                                                                                                            auto-completion-use-tab-instead-of-enter t)
+          git-enable-github-support t
+          git-gutter-use-fringe t)
+     haskell
+     html
+     javascript
+     ruby
+     fsharp
+     go
+     csharp
+     markdown
+     (auto-completion :variables
+                      auto-completion-use-tab-instead-of-enter t)
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
