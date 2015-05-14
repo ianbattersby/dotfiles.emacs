@@ -147,6 +147,10 @@ before layers configuration."
    dotspacemacs-default-package-repository nil
    )
   ;; User initialization goes here
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (select-frame frame)
+              (spacemacs/toggle-transparent-frame)))
   )
 
 (defun dotspacemacs/config ()
