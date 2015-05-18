@@ -171,9 +171,7 @@ before layers configuration."
   (defun eshell/x ()
     (insert "exit")
     (eshell-send-input)
-    (delete-window)) 
-
-  (evil-leader/set-key "@" 'eshell-here) 
+    (delete-window))
 )
 
 (defun dotspacemacs/config ()
@@ -186,6 +184,7 @@ layers configuration."
   (spacemacs/toggle-fullscreen-frame)
   (setq magit-repo-dirs '("~/code/"))
   (setq-default git-gutter-fr:side 'left-fringe)
+  (evil-leader/set-key "@" 'eshell-here)
   ;;(setq-default omnisharp-server-executable-path "~/code/omnisharp-server/bin/debug")
   ;; (evil-define-key 'insert omnisharp-mode-map (kbd "M-.") 'omnisharp-auto-complete)
   ;; (evil-define-key 'normal omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
