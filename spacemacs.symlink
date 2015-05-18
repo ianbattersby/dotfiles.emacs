@@ -152,7 +152,10 @@ before layers configuration."
               (select-frame frame)
               (spacemacs/toggle-transparent-frame)))
 
-    ;; eshell
+  ;; evil
+  (setq-default evil-escape-delay 0.2) 
+
+  ;; eshell
   (defun eshell-here ()
       (interactive)
       (let* ((parent (if (buffer-file-name)
