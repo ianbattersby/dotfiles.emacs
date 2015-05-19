@@ -178,6 +178,9 @@ before layers configuration."
 
   ;; haskell
   (add-to-list 'exec-path "~/.cabal/bin/")
+
+  ;; golang
+  (add-to-list 'exec-path "~/go/bin")
 )
 
 (defun dotspacemacs/config ()
