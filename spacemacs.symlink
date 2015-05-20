@@ -36,7 +36,8 @@
      csharp
      markdown
      (auto-completion :variables
-                      auto-completion-use-tab-instead-of-enter t)
+                      auto-completion-use-tab-instead-of-enter t
+                      auto-completion-enable-company-help-tooltip t)
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
