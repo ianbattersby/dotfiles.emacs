@@ -35,6 +35,7 @@
      go
      csharp
      markdown
+     deft
      (auto-completion :variables
                       auto-completion-return-key-behavior complete
                       auto-completion-tab-key-behavior cycle
@@ -200,6 +201,7 @@ layers configuration."
   (evil-leader/set-key "@" 'eshell-here)
   (custom-set-faces
    '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
+  (setq deft-directory "~/Documents/Notes")
   ;;(setq-default omnisharp-server-executable-path "~/code/omnisharp-server/bin/debug")
   ;; (evil-define-key 'insert omnisharp-mode-map (kbd "M-.") 'omnisharp-auto-complete)
   ;; (evil-define-key 'normal omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
