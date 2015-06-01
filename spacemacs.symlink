@@ -28,6 +28,7 @@
           git-enable-github-support t
           git-gutter-use-fringe t)
      (haskell :variables haskell-enable-ghci-ng-support nil)
+     emacs-lisp
      html
      javascript
      ruby
