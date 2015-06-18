@@ -204,7 +204,7 @@ layers configuration."
   (add-hook 'prog-mode-hook #'linum-relative-toggle)
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
   (spacemacs/toggle-transparent-frame)
-  (spacemacs/toggle-fullscreen-frame)
+  ;;(spacemacs/toggle-fullscreen-frame)
   (setq magit-repo-dirs '("~/code/"))
   (setq-default git-gutter-fr:side 'left-fringe)
   (evil-leader/set-key "@" 'eshell-here)
