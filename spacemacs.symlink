@@ -23,10 +23,10 @@
      ;; markdown
      ;; org
      ;; syntax-checking
-     ;; (ycmd :variables ycmd-server-command "/usr/share/vim/vimfiles/third_party/ycmd") 
-     (git :variables
-          git-enable-github-support t
-          git-gutter-use-fringe t)
+     ;; (ycmd :variables ycmd-server-command "/usr/share/vim/vimfiles/third_party/ycmd")
+     git
+     github
+     version-control
      (haskell :variables haskell-enable-ghci-ng-support nil)
      emacs-lisp
      html
