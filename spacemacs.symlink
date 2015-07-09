@@ -39,7 +39,7 @@
      deft
      eyebrowse
      (shell :variables shell-default-shell 'ansi-term shell-default-term-shell "/usr/bin/zsh")
-     (rcirc :variables rcirc-enable-authinfo-support t)
+     ;;(rcirc :variables rcirc-enable-authinfo-support nil)
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle
@@ -192,33 +192,34 @@ layers configuration."
   (setq deft-directory "~/Documents/Notes")
 
   ;; rcirc
-  (setq rcirc-log-flag t
-        rcirc-log-directory (expand-file-name "irclogs" (getenv "HOME")))
+  ;;(setq rcirc-log-flag t
+  ;;      rcirc-log-directory (expand-file-name "irclogs" (getenv "HOME")))
 
-  (rcirc-track-minor-mode 1)
-  (setq rcirc-prompt      "»» "
-        rcirc-time-format "%H:%M "
-        rcirc-fill-flag   nil
-        rcirc-auto-authenticate-flag t
-        rcirc-debug-flag t)
+  ;; (rcirc-track-minor-mode 1)
+  ;; (setq rcirc-prompt      "»» "
+  ;;       rcirc-time-format "%H:%M "
+  ;;       rcirc-fill-flag   nil
+  ;;       rcirc-auto-authenticate-flag t
+  ;;       rcirc-debug-flag t)
 
-  (setq rcirc-default-user-name "cranialstrain"
-        rcirc-default-nick      "cranialstrain"
-        rcirc-default-full-name "Ian Battersby")
+  ;; (setq rcirc-default-user-name "cranialstrain"
+  ;;       rcirc-default-nick      "cranialstrain"
+  ;;       rcirc-default-full-name "Ian Battersby")
 
-  (evil-set-initial-state 'rcirc-mode 'normal)
+  ;; (evil-set-initial-state 'rcirc-mode 'normal)
 
-  (setq rcirc-server-alist
-        '(;;("irc.freenode.net"
-           ;;:port "6665"
-           ;;:channels (""))
-          ("irc.gitter.im"
-           :port "6667"
-           :user-name "ianbattersby"
-           :full-name "ianbattersby"
-           :nick "ianbattersby"
-           :encryption tls
-           :channels ("#syl20bnr/spacemacs" "#iancooper/Paramore"))))
+  ;; (setq rcirc-server-alist
+  ;;       '(;;("irc.freenode.net"
+  ;;          ;;:port "6665"
+  ;;          ;;:channels ("#rcirc"))
+  ;;         ("irc.gitter.im"
+  ;;          ;;:port "6667"
+  ;;          :user-name "ianbattersby"
+  ;;          :full-name "ianbattersby"
+  ;;          :nick "ianbattersby"
+  ;;          :encryption tls
+  ;;          :password "test"
+  ;;          :channels ("#syl20bnr/spacemacs" "#iancooper/Paramore"))))
 
   ;;(setq-default omnisharp-server-executable-path "~/code/omnisharp-server/bin/debug")
   ;; (evil-define-key 'insert omnisharp-mode-map (kbd "M-.") 'omnisharp-auto-complete)
