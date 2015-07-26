@@ -162,8 +162,9 @@ before layers configuration."
   (add-hook 'after-make-frame-functions
             (lambda (frame)
               (select-frame frame)
-              (spacemacs/toggle-transparent-frame)))
-
+              (set-frame-parameter (selected-frame) 'alpha
+                                   (list dotspacemacs-active-transparency
+                                         dotspacemacs-inactive-transparency))))
   ;; evil
   (setq-default evil-escape-delay 0.2) 
 
@@ -182,8 +183,13 @@ layers configuration."
   (add-hook 'prog-mode-hook #'linum-mode)
   (add-hook 'prog-mode-hook #'linum-relative-toggle)
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
-  (spacemacs/toggle-transparent-frame)
+
+  ;;(spacemacs/toggle-transparent-frame)
   ;;(spacemacs/toggle-fullscreen-frame)
+  (set-frame-parameter (selected-frame) 'alpha
+                       (list dotspacemacs-active-transparency
+                             dotspacemacs-inactive-transparency))
+
   (setq magit-repo-dirs '("~/code/"))
   (setq-default git-gutter-fr:side 'left-fringe)
   (evil-leader/set-key "@" 'eshell-here)
