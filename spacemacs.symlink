@@ -159,12 +159,18 @@ before layers configuration."
    dotspacemacs-default-package-repository nil
    )
   ;; User initialization goes here
+
+  ;; transparency by default for daemon mode
   (add-hook 'after-make-frame-functions
             (lambda (frame)
               (select-frame frame)
               (set-frame-parameter (selected-frame) 'alpha
                                    (list dotspacemacs-active-transparency
                                          dotspacemacs-inactive-transparency))))
+
+  ;; disable tramp errors as they are way annoying
+  (setq ad-redefinition-action 'accept)
+
   ;; evil
   (setq-default evil-escape-delay 0.2) 
 
