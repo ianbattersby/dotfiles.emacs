@@ -22,7 +22,7 @@
      ;;      git-gutter-use-fringe t)
      ;; markdown
      ;; org
-     ;; syntax-checking
+     syntax-checking
      ;; (ycmd :variables ycmd-server-command "/usr/share/vim/vimfiles/third_party/ycmd")
      git
      github
@@ -196,6 +196,8 @@ layers configuration."
   (custom-set-faces
    '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
   (setq deft-directory "~/Documents/Notes")
+  (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
+  (add-hook 'evil-normal-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
 
   ;; rcirc
   ;;(setq rcirc-log-flag t
