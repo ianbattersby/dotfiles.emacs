@@ -21,7 +21,7 @@
      git
      github
      version-control
-     (haskell :variables haskell-enable-ghci-ng-support nil)
+     (haskell :variables haskell-enable-ghci-ng-support t)
      emacs-lisp
      html
      javascript
