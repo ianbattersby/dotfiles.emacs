@@ -220,8 +220,8 @@ layers configuration."
   (setq deft-directory "~/Documents/Notes")
 
   ;; syntax-checking
-  (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
-  (add-hook 'evil-normal-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
+  ;; (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
+  ;; (add-hook 'evil-normal-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
 )
 
 (defun my-flycheck-pos-tip-error-messages (errors)
