@@ -214,7 +214,6 @@ layers configuration."
    '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
 
   ;; flycheck
-  (setq flycheck-display-errors-delay 0)
   (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
 
   ;; deft
@@ -284,7 +283,7 @@ layers configuration."
   (setq tab-width 4)          ; and 4 char wide for TAB
   (setq indent-tabs-mode nil) ; And force use of spaces
   (setq eldoc-idle-delay 0.1
-        flycheck-display-errors-delay 0.2)
+        flycheck-display-errors-delay 0)
   (turn-on-eldoc-mode))
 
 ;; Company mode stuff
