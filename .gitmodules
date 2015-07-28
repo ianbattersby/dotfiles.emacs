@@ -1,3 +1,6 @@
 [submodule "emacs.d.symlink"]
 	path = emacs.d.symlink
 	url = http://github.com/syl20bnr/spacemacs
+[submodule "spacemacs.layers.symlink"]
+	path = spacemacs.layers.symlink
+	url = git@github.com:ianbattersby/dotfiles.spacemacs.git
