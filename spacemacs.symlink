@@ -195,6 +195,11 @@ layers configuration."
                        (list dotspacemacs-active-transparency
                              dotspacemacs-inactive-transparency))
 
+  ;; full-screen (as don't expect gpg prompts here now rcirc is gone)
+  (set-frame-parameter nil 'fullscreen
+                       (when (not (frame-parameter nil 'fullscreen))
+                         'fullboth))
+
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
 
