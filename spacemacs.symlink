@@ -200,7 +200,8 @@ layers configuration."
 
   ;; git
   (setq magit-repo-dirs '("~/code/"))
-  (setq-default git-gutter-fr:side 'left-fringe)
+  (setq diff-hl-side 'left)
+  (setq diff-hl-draw-borders t)
 
   ;; company
   (custom-set-faces
