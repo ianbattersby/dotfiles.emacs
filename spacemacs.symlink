@@ -22,6 +22,7 @@
      github
      version-control
      (haskell :variables haskell-enable-ghci-ng-support t)
+     erlang
      emacs-lisp
      html
      javascript
