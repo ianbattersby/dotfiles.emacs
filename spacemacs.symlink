@@ -195,38 +195,121 @@ layers configuration."
                        (list dotspacemacs-active-transparency
                              dotspacemacs-inactive-transparency))
 
+  ;; omnisharp
+  (add-hook 'csharp-mode-hook 'my-csharp-mode)
+
+  ;; git
   (setq magit-repo-dirs '("~/code/"))
   (setq-default git-gutter-fr:side 'left-fringe)
-  (evil-leader/set-key "@" 'eshell-here)
+
+  ;; company
   (custom-set-faces
    '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
+
+  ;; deft
   (setq deft-directory "~/Documents/Notes")
+
+  ;; syntax-checking
   (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
   (add-hook 'evil-normal-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
-
-  ;;(setq-default omnisharp-server-executable-path "~/code/omnisharp-server/bin/debug")
-  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "M-.") 'omnisharp-auto-complete)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g u") 'omnisharp-find-usages)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g I") 'omnisharp-find-implementations) ; g i is taken
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g o") 'omnisharp-go-to-definition)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g r") 'omnisharp-run-code-action-refactoring)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g f") 'omnisharp-fix-code-issue-at-point)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g F") 'omnisharp-fix-usings)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "g R") 'omnisharp-rename)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", i") 'omnisharp-current-type-information)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", I") 'omnisharp-current-type-documentation)
-  ;; (evil-define-key 'insert omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", n t") 'omnisharp-navigate-to-current-file-member)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", n s") 'omnisharp-navigate-to-solution-member)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", n f") 'omnisharp-navigate-to-solution-file-then-file-member)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", n F") 'omnisharp-navigate-to-solution-file)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ", n r") 'omnisharp-navigate-to-region)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd "<f12>") 'omnisharp-show-last-auto-complete-result)
-  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "<f12>") 'omnisharp-show-last-auto-complete-result)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ",.") 'omnisharp-show-overloads-at-point)
-  ;; (evil-define-key 'normal omnisharp-mode-map (kbd ",rl") 'recompile)
 )
 
+(defun my-flycheck-pos-tip-error-messages (errors)
+  ;; don't show inline error display when company popup is active
+  (when (not (company-search-mode))
+    (flycheck-pos-tip-error-messages errors))
+  )
+
+(defun my-csharp-mode ()
+  (yas-minor-mode)
+  (omnisharp-mode)
+  (company-mode)
+  (flycheck-mode)
+  (linum-mode)
+  ;; (whole-line-or-region-mode)
+  ;; use flex matching for company
+  (electric-pair-mode)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ob") 'omnisharp-build-in-emacs)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ocf") 'omnisharp-code-format)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> or") 'omnisharp-rename-interactively)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofu") 'omnisharp-helm-find-usages)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> oss") 'omnisharp-start-omnisharp-server)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> osp") 'omnisharp-stop-omnisharp-server)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofi") 'omnisharp-find-implementations)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ox") 'omnisharp-fix-code-issue-at-point)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofx") 'omnisharp-fix-usings)
+  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> oo") 'omnisharp-auto-complete-overrides)
+  (define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
+  (define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
+  (define-key company-active-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
+  (define-key company-active-map (kbd ")") (lambda() (interactive) (company-complete-selection-insert-key '")")))
+  (define-key company-active-map (kbd "<SPC>") nil)
+  (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
+  (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
+  (define-key omnisharp-mode-map (kbd "}") 'csharp-indent-function-on-closing-brace) 
+  (define-key omnisharp-mode-map (kbd "<RET>") 'csharp-newline-and-indent) 
+
+  (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
+  (define-key omnisharp-mode-map (kbd "s-d") 'omnisharp-go-to-definition)
+  (define-key omnisharp-mode-map (kbd "S-s-<up>") 'omnisharp-navigate-up)
+  (define-key omnisharp-mode-map (kbd "S-s-<down>") 'omnisharp-navigate-down)
+  (define-key omnisharp-mode-map (kbd "S-<f12>") 'omnisharp-helm-find-usages)
+
+  (define-key omnisharp-mode-map (kbd "s-u") 'omnisharp-helm-find-usages)
+  (define-key omnisharp-mode-map (kbd "s-i") 'omnisharp-helm-find-implementations)
+  (define-key omnisharp-mode-map (kbd "S-s-<f12>") 'omnisharp-helm-find-usages)
+  (define-key omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
+  (define-key omnisharp-mode-map (kbd "C-.") 'omnisharp-run-code-action-refactoring)
+
+  (define-key omnisharp-mode-map (kbd "C-k C-d") 'omnisharp-code-format)
+  (define-key omnisharp-mode-map (kbd "C-d") 'duplicate-current-line-or-region)
+
+  (define-key omnisharp-mode-map (kbd "<f2>") 'omnisharp-rename-interactively)
+  (define-key omnisharp-mode-map (kbd "<f5>") 'omnisharp-build-in-emacs)
+  ;; (add-to-list 'company-backends 'company-omnisharp)
+  (setq c-basic-offset 4) ; indents 4 chars
+  (setq tab-width 4)          ; and 4 char wide for TAB
+  (setq indent-tabs-mode nil) ; And force use of spaces
+  (setq eldoc-idle-delay 0.1
+        flycheck-display-errors-delay 0.2)
+  (turn-on-eldoc-mode))
+
+;; Company mode stuff
+(defun company-complete-selection-insert-key(company-key)
+  (company-complete-selection)
+  (insert company-key))
+
+(defun company-complete-selection-insert-key-and-complete(company-key)
+  (company-complete-selection-insert-key company-key)
+  (company-complete))
+
+(defun csharp-indent-function-on-closing-brace()
+  (interactive)
+  (insert "}")
+  (c-indent-defun))
+
+(defun csharp-newline-and-indent ()
+  "Open a newline and indent.
+If point is between a pair of braces, opens newlines to put braces
+on their own line."
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (when (and
+             (looking-at " *}")
+             (save-match-data
+               (when (looking-back "{ *")
+                 (goto-char (match-beginning 0))
+                 (unless (looking-back "^[[:space:]]*")
+                   (newline-and-indent))
+                 t)))
+        (unless (and (boundp electric-pair-open-newline-between-pairs)
+                     electric-pair-open-newline-between-pairs
+                     electric-pair-mode)
+          (goto-char (match-beginning 0))
+          (newline-and-indent)))))
+  (newline-and-indent))
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
