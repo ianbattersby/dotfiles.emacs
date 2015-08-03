@@ -200,10 +200,6 @@ layers configuration."
                        (when (not (frame-parameter nil 'fullscreen))
                          'fullboth))
 
-  ;; omnisharp
-  (add-hook 'my-csharp-mode-hook 'my-csharp-mode-hacks)
-  (setq omnisharp-auto-complete-want-documentation nil)
-
   ;; git
   (setq magit-repo-dirs '("~/code/"))
   (setq diff-hl-side 'left)
@@ -230,96 +226,5 @@ layers configuration."
     (flycheck-pos-tip-error-messages errors))
   )
 
-(defun my-csharp-mode-hacks ()
-  (yas-minor-mode)
-  (omnisharp-mode)
-  (company-mode)
-  (flycheck-mode)
-  (linum-mode)
-  ;; (whole-line-or-region-mode)
-  ;; use flex matching for company
-  (electric-pair-mode)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ob") 'omnisharp-build-in-emacs)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ocf") 'omnisharp-code-format)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> or") 'omnisharp-rename-interactively)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofu") 'omnisharp-helm-find-usages)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> oss") 'omnisharp-start-omnisharp-server)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> osp") 'omnisharp-stop-omnisharp-server)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofi") 'omnisharp-find-implementations)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ox") 'omnisharp-fix-code-issue-at-point)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofx") 'omnisharp-fix-usings)
-  (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> oo") 'omnisharp-auto-complete-overrides)
-  (define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
-  (define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
-  (define-key company-active-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
-  (define-key company-active-map (kbd ")") (lambda() (interactive) (company-complete-selection-insert-key '")")))
-  (define-key company-active-map (kbd "<SPC>") nil)
-  (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
-  (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
-  (define-key omnisharp-mode-map (kbd "}") 'csharp-indent-function-on-closing-brace) 
-  (define-key omnisharp-mode-map (kbd "<RET>") 'csharp-newline-and-indent) 
-
-  (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
-  (define-key omnisharp-mode-map (kbd "s-d") 'omnisharp-go-to-definition)
-  (define-key omnisharp-mode-map (kbd "S-s-<up>") 'omnisharp-navigate-up)
-  (define-key omnisharp-mode-map (kbd "S-s-<down>") 'omnisharp-navigate-down)
-  (define-key omnisharp-mode-map (kbd "S-<f12>") 'omnisharp-helm-find-usages)
-
-  (define-key omnisharp-mode-map (kbd "s-u") 'omnisharp-helm-find-usages)
-  (define-key omnisharp-mode-map (kbd "s-i") 'omnisharp-helm-find-implementations)
-  (define-key omnisharp-mode-map (kbd "S-s-<f12>") 'omnisharp-helm-find-usages)
-  (define-key omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
-  (define-key omnisharp-mode-map (kbd "C-.") 'omnisharp-run-code-action-refactoring)
-
-  (define-key omnisharp-mode-map (kbd "C-k C-d") 'omnisharp-code-format)
-  (define-key omnisharp-mode-map (kbd "C-d") 'duplicate-current-line-or-region)
-
-  (define-key omnisharp-mode-map (kbd "<f2>") 'omnisharp-rename-interactively)
-  (define-key omnisharp-mode-map (kbd "<f5>") 'omnisharp-build-in-emacs)
-  ;; (add-to-list 'company-backends 'company-omnisharp)
-  (setq c-basic-offset 4) ; indents 4 chars
-  (setq tab-width 4)          ; and 4 char wide for TAB
-  (setq indent-tabs-mode nil) ; And force use of spaces
-  (setq eldoc-idle-delay 0.1
-        flycheck-display-errors-delay 0)
-  (turn-on-eldoc-mode))
-
-;; Company mode stuff
-(defun company-complete-selection-insert-key(company-key)
-  (company-complete-selection)
-  (insert company-key))
-
-(defun company-complete-selection-insert-key-and-complete(company-key)
-  (company-complete-selection-insert-key company-key)
-  (company-complete))
-
-(defun csharp-indent-function-on-closing-brace()
-  (interactive)
-  (insert "}")
-  (c-indent-defun))
-
-(defun csharp-newline-and-indent ()
-  "Open a newline and indent.
-If point is between a pair of braces, opens newlines to put braces
-on their own line."
-  (interactive)
-  (save-excursion
-    (save-match-data
-      (when (and
-             (looking-at " *}")
-             (save-match-data
-               (when (looking-back "{ *")
-                 (goto-char (match-beginning 0))
-                 (unless (looking-back "^[[:space:]]*")
-                   (newline-and-indent))
-                 t)))
-        (unless (and (boundp electric-pair-open-newline-between-pairs)
-                     electric-pair-open-newline-between-pairs
-                     electric-pair-mode)
-          (goto-char (match-beginning 0))
-          (newline-and-indent)))))
-  (newline-and-indent))
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
