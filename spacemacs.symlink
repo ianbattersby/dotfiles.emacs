@@ -121,7 +121,7 @@ before layers configuration."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup t
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX."
    dotspacemacs-fullscreen-use-non-native nil
@@ -194,11 +194,6 @@ layers configuration."
   (set-frame-parameter (selected-frame) 'alpha
                        (list dotspacemacs-active-transparency
                              dotspacemacs-inactive-transparency))
-
-  ;; full-screen (as don't expect gpg prompts here now rcirc is gone)
-  (set-frame-parameter nil 'fullscreen
-                       (when (not (frame-parameter nil 'fullscreen))
-                         'fullboth))
 
   ;; git
   (setq magit-repo-dirs '("~/code/"))
