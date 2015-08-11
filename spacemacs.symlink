@@ -180,6 +180,9 @@ before layers configuration."
 
   ;; golang
   (add-to-list 'exec-path "~/go/bin")
+
+  ;; spacemacs
+  ;;(setq dotspacemacs-verbose-loading t)
 )
 
 (defun dotspacemacs/config ()
