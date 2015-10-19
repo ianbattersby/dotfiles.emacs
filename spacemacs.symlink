@@ -49,7 +49,7 @@
      ruby
      fsharp
      go
-     my-csharp
+     (my-csharp :variables omnisharp-load-script "~/code/omnisharp-roslyn/scripts/Omnisharp")
      markdown
      deft
      eyebrowse
