@@ -228,7 +228,9 @@ before layers configuration."
   (setq ad-redefinition-action 'accept)
 
   ;; evil
-  (setq-default evil-escape-delay 0.2) 
+  (setq-default
+   evil-escape-delay 0.2
+   evil-shift-round nil)
 
   ;; haskell
   (add-to-list 'exec-path "~/.cabal/bin/")
