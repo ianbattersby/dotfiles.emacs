@@ -43,6 +43,7 @@
      ruby
      semantic
      (syntax-checking :variables syntax-checking-enable-by-default t)
+     unimpaired
      version-control
 
      ;; platform conditional layers
