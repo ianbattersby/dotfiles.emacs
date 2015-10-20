@@ -11,7 +11,7 @@
    dotspacemacs-distribution 'spacemacs
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (ie. ~`/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.spacemacs.layers")
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.layers" "~/code/thebb-spacemacs-layers")
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
@@ -49,15 +49,23 @@
      ruby
      fsharp
      go
-     (my-csharp :variables omnisharp-load-script "~/code/omnisharp-roslyn/scripts/Omnisharp")
      markdown
      deft
      eyebrowse
      prodigy
+     ranger
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle)
                       ;;auto-completion-enable-help-tooltip t)
+
+     ;; custom layers
+     (my-csharp :variables omnisharp-load-script "~/code/omnisharp-roslyn/scripts/Omnisharp")
+
+     ;; (modify-theme :variables
+     ;;               modify-theme-headings-inherit-from-default 'all
+     ;;               modify-theme-headings-same-size 'all
+     ;;               modify-theme-headings-bold 'all)
      )
    ;; List of additional packages that will be installed wihout being
    ;; wrapped in a layer. If you need some configuration for these
@@ -232,6 +240,97 @@ before layers configuration."
    evil-escape-delay 0.2
    evil-shift-round nil)
 
+  ;; whitespace mode
+  (setq-default
+    whitespace-style '(face tabs tab-mark)
+    whitespace-display-mappings
+    '((newline-mark 10 [172 10])
+      (tab-mark 9 [9655 9])))
+
+  ;; Smartparens
+  (setq-default
+    sp-highlight-pair-overlay nil
+    sp-highlight-wrap-overlay nil
+    sp-highlight-wrap-tag-overlay nil)
+
+  ;; flycheck
+  (setq-default
+    flycheck-check-syntax-automatically '(save mode-enabled))
+
+  ;; Avy
+  (setq-default
+    avy-all-windows 'all-frames)
+
+  ;; Emacs Lisp
+  (setq-default
+    nameless-global-aliases
+     '(("sm" . "spacemacs")
+       ("dsm" . "dotspacemacs")
+       ("cfl" . "configuration-layer")
+       ("sl" . "spaceline"))
+    nameless-discover-current-name nil
+    nameless-prefix ""
+    nameless-separator nil)
+
+  ;; Org
+  (setq-default
+    org-tags-column -80
+    org-clock-into-drawer "LOGBOOK"
+    org-log-into-drawer "LOGBOOK"
+    org-startup-align-all-tables t
+    org-footnote-auto-adjust t
+    org-footnote-auto-label 'confirm
+    org-M-RET-may-split-line
+     '((headline . nil) (item . nil) (table . nil))
+    org-directory "~/Documents/org"
+    org-default-notes-file "~/Documents/org/capture.org"
+    org-capture-templates
+     '(("t" "Tasks")
+     ("tg" "General" entry (file+headline "" "Tasks")
+      "* TODO %?\n%i\n%T"
+      :empty-lines 1)
+     ("tl" "Location" entry (file+headline "" "Tasks")
+      "* TODO %?\n%i\n%T\n%a"
+      :empty-lines 1)
+     ("n" "Notes")
+     ("ng" "General" entry (file+headline "" "Notes")
+      "* %?\n%i\n%T"
+      :empty-lines 1)
+     ("nl" "Location" entry (file+headline "" "Notes")
+      "* %?\n%i\n%T\n%a"
+      :empty-lines 1)))
+
+  ;; Theme modifications
+  ;; modify-theme-modifications
+  ;; '((monokai
+  ;;    (company-tooltip-annotation
+  ;;     ((t (:foreground "#ff9eb8" :background "#49483e"))))
+  ;;    (erc-timestamp-face
+  ;;     ((t (:inherit font-lock-comment-face :foreground nil))))
+  ;;    (evil-search-highlight-persist-highlight-face
+  ;;     ((t (:background "#fc5fef" :foreground "#000000"))))
+  ;;    (font-lock-comment-face ((t (:slant italic))))
+  ;;    (font-lock-string-face ((t (:slant italic))))
+  ;;    (font-lock-doc-face ((t (:slant italic))))
+  ;;    (font-lock-keyword-face ((t (:weight bold))))
+  ;;    (font-lock-builtin-face ((t (:foreground "#ff9eb8"))))
+  ;;    (font-lock-warning-face ((t (:underline nil))))
+  ;;    (region ((t (:background "#998f84"))))
+  ;;    (term ((t (:foreground nil :background nil))))
+  ;;    (web-mode-html-attr-value-face
+  ;;     ((t (:inherit font-lock-string-face :foreground nil))))
+  ;;    (web-mode-html-attr-name-face
+  ;;     ((t (:inherit font-lock-variable-name-face :foreground nil))))
+  ;;    (web-mode-html-tag-face
+  ;;     ((t (:inherit font-lock-builtin-face :foreground nil :weight bold))))
+  ;;    (web-mode-html-tag-bracket-face
+  ;;     ((t (:inherit web-mode-html-tag-face :foreground nil))))
+  ;;    (web-mode-comment-face
+  ;;     ((t (:inherit font-lock-comment-face :foreground nil)))))
+  ;;   (t
+  ;;    (font-latex-slide-title-face
+  ;;     ((t (:inherit font-lock-type-face :height 1.0 :weight bold))))))
+
   ;; haskell
   (add-to-list 'exec-path "~/.cabal/bin/")
 
@@ -248,12 +347,84 @@ before layers configuration."
 layers configuration."
   (add-hook 'prog-mode-hook #'linum-mode)
   (add-hook 'prog-mode-hook #'linum-relative-toggle)
+  (add-hook 'emacs-lisp-mode-hook #'linum-relative-toggle)
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
+  (add-hook 'makefile-mode-hook 'whitespace-mode)
+  (add-hook 'text-mode-hook 'auto-fill-mode)
+  (add-hook 'dired-mode-hook 'deer)
+
+  ;; utility functions
+  (defun bb/define-key (keymap &rest bindings)
+    (declare (indent 1))
+    (while bindings
+      (define-key keymap (pop bindings) (pop bindings))))
+
+  (defmacro bb/remove-from-list (list-var element)
+    `(setq ,list-var (remove ,element ,list-var)))
+
+  ;; settings
+  (setq-default
+    tab-width 8
+    evil-move-beyond-eol nil
+    helm-echo-input-in-header-line nil
+
+    auto-mode-alist
+    (append '(("\\.xml\\'" . web-mode)
+              ("\\.xinp\\'" . web-mode)
+              ("\\.C\\'" . c++-mode)
+              ("\\.h\\'" . c++-mode))
+            auto-mode-alist))
+
+  ;; keybindings
+  (bb/define-key evil-normal-state-map
+                 "\\" 'evil-repeat-find-char-reverse
+                 "[s" (lambda (n) (interactive "p") (dotimes (c n nil) (insert " ")))
+                 "]s" (lambda (n) (interactive "p")
+                        (forward-char) (dotimes (c n nil) (insert " ")) (backward-char (1+ n))))
+  (bb/define-key evil-motion-state-map
+                 (kbd "<backspace>") 'helm-M-x)
+  (evil-leader/set-key
+    "ec" 'flycheck-clear
+    "os" 'just-one-space
+    "ot" 'helm-etags-select
+    "ov" 'evilmi-select-items
+    "oh" (defun bb/highlight ()
+           (interactive)
+           (hlt-highlight-region)
+           (keyboard-quit))
+    "oH" (defun bb/unhighlight ()
+           (interactive)
+           (hlt-unhighlight-region)
+           (keyboard-quit)))
+  (bb/define-key company-active-map
+    (kbd "C-w") 'evil-delete-backward-word)
 
   ;; transparency
   (set-frame-parameter (selected-frame) 'alpha
                        (list dotspacemacs-active-transparency
                              dotspacemacs-inactive-transparency))
+
+  ;; Disable smartparens highlighting
+  ;;(with-eval-after-load 'smartparens
+  ;;  (show-smartparens-global-mode -1))
+
+  ;; Some fixes for comint-style buffers
+  (dolist (mode '(erc-mode comint-mode term-mode eshell-mode inferior-emacs-lisp-mode))
+    (bb/remove-from-list evil-insert-state-modes mode))
+
+  (let ((comint-hooks '(eshell-mode-hook
+                        term-mode-hook
+                        erc-mode-hook
+                        messages-buffer-mode-hook
+                        inferior-emacs-lisp-mode-hook
+                        inferior-python-mode-hook)))
+    (spacemacs/add-to-hooks (defun bb/no-hl-line-mode ()
+                              (setq-local global-hl-line-mode nil))
+                            comint-hooks)
+    (spacemacs/add-to-hooks (defun bb/no-scroll-margin ()
+                              (setq-local scroll-margin 0))
+                            comint-hooks))
+  (add-hook 'inferior-emacs-lisp-mode-hook 'smartparens-mode)
 
   ;; git
   (setq magit-repo-dirs '("~/code/"))
@@ -261,14 +432,21 @@ layers configuration."
   (setq diff-hl-draw-borders t)
 
   ;; company
-  (custom-set-faces
-   '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
+  ;;(custom-set-faces
+  ;; '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
 
   ;; flycheck
   (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
 
   ;; deft
   (setq deft-directory "~/Documents/Notes")
+
+  ;; Org
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (evil-leader/set-key-for-mode 'org-mode
+    "m*" 'org-ctrl-c-star
+    "m RET" 'org-ctrl-c-ret
+    "m-" 'org-ctrl-c-minus)
 
   ;; syntax-checking
   ;; (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
