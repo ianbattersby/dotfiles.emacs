@@ -54,6 +54,7 @@
      eyebrowse
      prodigy
      ranger
+     semantic
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle)
@@ -260,6 +261,10 @@ before layers configuration."
   ;; Avy
   (setq-default
     avy-all-windows 'all-frames)
+
+  ;; Semantic fucks up scrolling
+  (with-eval-after-load 'semantic
+    (bb/remove-from-list semantic-submode-list 'global-semantic-stickyfunc-mode))
 
   ;; Emacs Lisp
   (setq-default
