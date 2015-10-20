@@ -36,30 +36,30 @@
      ;; fasd
      ;; (shell :variables shell-default-shell 'ansi-term shell-default-term-shell "/bin/zsh")
 
-     better-defaults
-     syntax-checking
-     git
-     github
-     version-control
-     (haskell :variables haskell-enable-ghci-ng-support t)
-     erlang
-     emacs-lisp
-     html
-     javascript
-     ruby
-     fsharp
-     go
-     markdown
-     deft
-     eyebrowse
-     prodigy
-     ranger
-     semantic
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle
                       ;;auto-completion-enable-help-tooltip t)
                       :disabled-for org)
+     better-defaults
+     deft
+     emacs-lisp
+     eyebrowse
+     erlang
+     fsharp
+     git
+     github
+     go
+     (haskell :variables haskell-enable-ghci-ng-support t)
+     html
+     javascript
+     markdown
+     prodigy
+     ranger
+     ruby
+     semantic
+     (syntax-checking :variables syntax-checking-enable-by-default t)
+     version-control
 
      ;; custom layers
      (my-csharp :variables omnisharp-load-script "~/code/omnisharp-roslyn/scripts/Omnisharp")
