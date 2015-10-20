@@ -61,10 +61,10 @@
      ;; custom layers
      (my-csharp :variables omnisharp-load-script "~/code/omnisharp-roslyn/scripts/Omnisharp")
 
-     ;; (modify-theme :variables
-     ;;               modify-theme-headings-inherit-from-default 'all
-     ;;               modify-theme-headings-same-size 'all
-     ;;               modify-theme-headings-bold 'all)
+     (modify-theme :variables
+                    modify-theme-headings-inherit-from-default 'all
+                    modify-theme-headings-same-size 'all
+                    modify-theme-headings-bold 'all)
      )
    ;; List of additional packages that will be installed wihout being
    ;; wrapped in a layer. If you need some configuration for these
@@ -304,35 +304,44 @@ before layers configuration."
       :empty-lines 1)))
 
   ;; Theme modifications
-  ;; modify-theme-modifications
-  ;; '((monokai
-  ;;    (company-tooltip-annotation
-  ;;     ((t (:foreground "#ff9eb8" :background "#49483e"))))
-  ;;    (erc-timestamp-face
-  ;;     ((t (:inherit font-lock-comment-face :foreground nil))))
-  ;;    (evil-search-highlight-persist-highlight-face
-  ;;     ((t (:background "#fc5fef" :foreground "#000000"))))
-  ;;    (font-lock-comment-face ((t (:slant italic))))
-  ;;    (font-lock-string-face ((t (:slant italic))))
-  ;;    (font-lock-doc-face ((t (:slant italic))))
-  ;;    (font-lock-keyword-face ((t (:weight bold))))
-  ;;    (font-lock-builtin-face ((t (:foreground "#ff9eb8"))))
-  ;;    (font-lock-warning-face ((t (:underline nil))))
-  ;;    (region ((t (:background "#998f84"))))
-  ;;    (term ((t (:foreground nil :background nil))))
-  ;;    (web-mode-html-attr-value-face
-  ;;     ((t (:inherit font-lock-string-face :foreground nil))))
-  ;;    (web-mode-html-attr-name-face
-  ;;     ((t (:inherit font-lock-variable-name-face :foreground nil))))
-  ;;    (web-mode-html-tag-face
-  ;;     ((t (:inherit font-lock-builtin-face :foreground nil :weight bold))))
-  ;;    (web-mode-html-tag-bracket-face
-  ;;     ((t (:inherit web-mode-html-tag-face :foreground nil))))
-  ;;    (web-mode-comment-face
-  ;;     ((t (:inherit font-lock-comment-face :foreground nil)))))
-  ;;   (t
-  ;;    (font-latex-slide-title-face
-  ;;     ((t (:inherit font-lock-type-face :height 1.0 :weight bold))))))
+  (setq-default
+   modify-theme-modifications
+   '((monokai
+      ;; Font locking
+      (font-lock-comment-face :slant italic)
+      (font-lock-string-face :slant italic)
+      (font-lock-doc-face :slant italic)
+      (font-lock-keyword-face :weight bold)
+      (font-lock-builtin-face :foreground "#ff9eb8")
+      (font-lock-warning-face :underline nil)
+      (web-mode-html-attr-value-face
+       :inherit font-lock-string-face :foreground nil)
+      (web-mode-html-attr-name-face
+       :inherit font-lock-variable-name-face :foreground nil)
+      (web-mode-html-tag-face
+       :inherit font-lock-builtin-face :foreground nil :weight bold)
+      (web-mode-html-tag-bracket-face
+       :inherit web-mode-html-tag-face :foreground nil)
+      (web-mode-comment-face
+       :inherit font-lock-comment-face :foreground nil)
+
+      ;; Modeline
+      (mode-line :box "#999999")
+      (powerline-active1 :box "#999999")
+      (powerline-active2 :box "#999999")
+      (mode-line-inactive :box "#666666")
+      (powerline-inactive1 :box "#666666")
+      (powerline-inactive2 :box "#666666")
+
+      ;; Other
+      (company-tooltip-annotation
+       :foreground "#ff9eb8" :background "#49483e")
+      (erc-timestamp-face
+       :inherit font-lock-comment-face :foreground nil)
+      (evil-search-highlight-persist-highlight-face
+       :background "#fc5fef" :foreground "#000000")
+      (region :background "#998f84")
+      (term :foreground nil :background nil))))
 
   ;; haskell
   (add-to-list 'exec-path "~/.cabal/bin/")
