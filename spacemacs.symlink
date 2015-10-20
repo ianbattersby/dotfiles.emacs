@@ -151,7 +151,7 @@ before layers configuration."
    ;; `find-contrib-file' (SPC f e c) are replaced.
    dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses."
-   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
    dotspacemacs-helm-no-header nil
    ;; define the position to display `helm', options are `bottom', `top',
