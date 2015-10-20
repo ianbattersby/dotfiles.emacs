@@ -437,10 +437,6 @@ layers configuration."
   (setq ranger-parent-depth 2)
   (setq ranger-max-preview-size 1)
 
-  ;; company
-  ;;(custom-set-faces
-  ;; '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
-
   ;; flycheck
   (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
 
