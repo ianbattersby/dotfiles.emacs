@@ -328,7 +328,9 @@ before layers configuration."
   (add-to-list 'exec-path "~/.cabal/bin/")
 
   ;; golang
-  (add-to-list 'exec-path "~/go/bin")
+  (if (string= system-type "windows-nt")
+    (add-to-list 'exec-path "d:\code\go\bin") 
+    (add-to-list 'exec-path "~/go/bin"))
 
   ;; spacemacs
   ;;(setq dotspacemacs-verbose-loading t)
