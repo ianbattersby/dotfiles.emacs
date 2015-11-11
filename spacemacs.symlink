@@ -173,10 +173,10 @@ before layers configuration."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup (if (string= system-type "darwin") nil t)
+   dotspacemacs-fullscreen-at-startup (should-fullscreen-at-start)
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX."
-   dotspacemacs-fullscreen-use-non-native (if (string= system-type "darwin") t nil)
+   dotspacemacs-fullscreen-use-non-native t
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (Emacs 24.4+ only)
@@ -216,14 +216,14 @@ before layers configuration."
 (defun dotspacemacs/user-init ()
   "Initialization function for user. Called immediately following `dotspacemacs/init'."
 
+  ;; size window according to displays available
+  (unless (should-fullscreen-at-start)
+    (set-frame-size-according-to-position 2 t))
+
   ;; keyboard
   (when (equal system-type 'darwin)
     (setq mac-command-modifier 'super)
     (setq mac-function-modifier 'hyper))
-
-  ;; make initial window size relative to resolution if on OS X
-  (when (equal system-type 'darwin)
-    (set-frame-size-according-to-resolution))
 
   ;; transparency by default for daemon mode
   (add-hook 'after-make-frame-functions
@@ -345,6 +345,14 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
+  ;; size window according to displays available
+  (advice-add 'spacemacs/toggle-frame-fullscreen :after
+              (lambda()
+                (if (not (frame-parameter nil 'fullscreen))
+                    (progn
+                      (interactive)
+                      (set-frame-size-according-to-position 2)))))
+
   (add-hook 'prog-mode-hook #'linum-mode)
   (add-hook 'prog-mode-hook #'linum-relative-toggle)
   (add-hook 'emacs-lisp-mode-hook #'linum-relative-toggle)
@@ -462,6 +470,12 @@ layers configuration."
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
 
+  ;; frame movement
+  (evil-leader/set-key
+    "wW1" '(lambda() (interactive) (set-frame-size-according-to-position 1))
+    "wW2" '(lambda() (interactive) (set-frame-size-according-to-position 2))
+    "wW3" '(lambda() (interactive) (set-frame-size-according-to-position 3)))
+
   ;; window movement
   (global-set-key (kbd "s-h") 'windmove-left)
   (global-set-key (kbd "s-l") 'windmove-right)
@@ -500,25 +514,55 @@ layers configuration."
     (flycheck-pos-tip-error-messages errors))
   )
 
-(defun set-frame-size-according-to-resolution ()
-  (interactive)
-  (if window-system
+(defun ao/expand-completion-table
+    (orig-fun &rest args)
+  "Extract all symbols from COMPLETION-TABLE before calling projectile--tags."
+  (let ((completion-table (all-completions "" (car args))))
+    (funcall orig-fun completion-table)))
+
+(defun set-frame-size-according-to-position (pos &optional onstartup)
+  "Move frame according to screen position"
+ (interactive)
+ (if window-system
+  (let* (
+         (default-margin 30)
+         (char-width (if onstartup 8 (frame-char-width (selected-frame))))
+         (char-height (if onstartup 18 (frame-char-height (selected-frame))))
+         (displays (sort (display-monitor-attributes-list) (lambda(a b) (let ((a-left (nth 1 (assq 'geometry a))) (b-left (nth 1 (assq 'geometry b)))) (> b-left a-left)))))
+         (max-pos (if (> pos (list-length displays)) (list-length displays) pos))
+         (real-pos (- max-pos 1))
+         (geometry (assq 'geometry (nth real-pos displays)))
+         (display-width (nth 3 geometry))
+         (display-height (nth 4 geometry))
+         (left-pos (nth 1 geometry))
+         (top-pos (nth 2 geometry))
+         (bottom-pos (* -1 display-height))
+         (left-pos-margin (+ default-margin left-pos))
+         (top-pos-margin (+ default-margin top-pos))
+         (bottom-pos-margin (+  default-margin top-pos bottom-pos))
+         (column-width-margin (/ (- display-width (* default-margin 2)) char-width))
+         (line-height-margin (/ (- display-height (* default-margin 2)) char-height)))
+
+    (if (not onstartup)
+        (progn
+          (princ 'Re\-sizing\ according\ to\ displays)
+          (set-frame-position (selected-frame) left-pos-margin bottom-pos-margin)
+          (set-frame-height (selected-frame) line-height-margin)
+          (set-frame-width (selected-frame) column-width-margin))
       (progn
-        ;; use 120 char wide window for largeish displays
-        ;; and smaller 80 column windows for smaller displays
-        ;; pick whatever numbers make sense for you
-        ;;(add-to-list 'default-frame-alist '(top . 40))
-        (add-to-list 'default-frame-alist '(left . 20))
-        (if (> (x-display-pixel-width) 1280)
-            (add-to-list 'default-frame-alist (cons 'width 160))
-          (add-to-list 'default-frame-alist (cons 'width 100)))
-        ;; for the height, subtract a couple hundred pixels
-        ;; from the screen height (for panels, menubars and
-        ;; whatnot), then divide by the height of a char to
-        ;; get the height we want
-        (add-to-list 'default-frame-alist 
-                     (cons 'height (/ (- (x-display-pixel-height) 200)
-                                      (frame-char-height)))))))
+        (princ 'Setting\ default\ frame\ sizes)
+
+        (if (< top-pos-margin 0)
+            (add-to-list 'default-frame-alist `(top + ,top-pos-margin))
+          (add-to-list 'default-frame-alist `(top . ,top-pos-margin)))
+
+        (add-to-list 'default-frame-alist `(left . ,left-pos-margin))
+
+        (add-to-list 'default-frame-alist (cons 'height line-height-margin))
+        (add-to-list 'default-frame-alist (cons 'width column-width-margin)))))))
+
+(defun should-fullscreen-at-start()
+  (not (or (string= system-type "windows-nt") (not (window-system)) (> 1 (list-length (display-monitor-attributes-list))))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
