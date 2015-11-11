@@ -236,6 +236,9 @@ before layers configuration."
   ;; disable tramp errors as they are way annoying
   (setq ad-redefinition-action 'accept)
 
+  ;; projectile
+  (setq projectile-tags-command "ctags --exclude=periphlib --exclude=build -Re -f \"%s\" %s")
+
   ;; evil
   (setq-default
    evil-escape-delay 0.2
@@ -486,6 +489,9 @@ layers configuration."
   ;; use flex matching for company
   (setq omnisharp-company-match-type 'company-match-flx)
   (setq gc-cons-threshold 20000000)
+
+  ;; projectile
+  (advice-add 'projectile--tags :around #'ao/expand-completion-table)
 )
 
 (defun my-flycheck-pos-tip-error-messages (errors)
