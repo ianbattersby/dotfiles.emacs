@@ -255,7 +255,7 @@ before layers configuration."
 
   ;; whitespace mode
   (setq-default
-    whitespace-style '(face tabs tab-mark)
+    whitespace-style '(face tabs tab-mark newline-mark)
     whitespace-display-mappings
     '((newline-mark 10 [172 10])
       (tab-mark 9 [9655 9])))
