@@ -26,7 +26,6 @@
                       ;;auto-completion-enable-help-tooltip t)
                       :disabled-for org)
      better-defaults
-     deft
      emacs-lisp
      eyebrowse
      erlang
@@ -38,6 +37,7 @@
      html
      javascript
      markdown
+     (org :variables org-enable-github-support t)
      prodigy
      (ranger :variables ranger-show-preview t)
      ruby
@@ -290,6 +290,11 @@ before layers configuration."
      '((headline . nil) (item . nil) (table . nil))
     org-directory "~/Documents/org"
     org-default-notes-file "~/Documents/org/capture.org"
+    org-catch-invisible-edits 'show-and-error
+    org-list-demote-modify-bullet '(("-" . "*")
+                                    ("*" . "+")
+                                    ("+" . "-"))
+    org-list-allow-alphabetical t
     org-capture-templates
      '(("t" "Tasks")
      ("tg" "General" entry (file+headline "" "Tasks")
@@ -467,18 +472,9 @@ layers configuration."
 
   ;; ranger
   (setq ranger-cleanup-on-disable t)
+  (setq ranger-cleanup-eagerly t)
   (setq ranger-parent-depth 2)
   (setq ranger-max-preview-size 1)
-
-  ;; deft
-  (setq deft-directory "~/Documents/Notes")
-
-  ;; Org
-  (add-hook 'org-mode-hook 'auto-fill-mode)
-  (evil-leader/set-key-for-mode 'org-mode
-    "m*" 'org-ctrl-c-star
-    "m RET" 'org-ctrl-c-ret
-    "m-" 'org-ctrl-c-minus)
 
   ;; syntax-checking
   ;; (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
