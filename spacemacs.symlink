@@ -571,7 +571,13 @@ layers configuration."
     (if (not onstartup)
         (progn
           (princ 'Re\-sizing\ according\ to\ displays)
-          (set-frame-position (selected-frame) left-pos-margin bottom-pos-margin)
+
+          (if (> top-pos-margin 0)
+              (set-frame-position (selected-frame) left-pos-margin top-pos-margin)
+            (progn
+              (set-frame-position (selected-frame) left-pos-margin 0)
+              (set-frame-position (selected-frame) left-pos-margin bottom-pos-margin)))
+
           (set-frame-height (selected-frame) line-height-margin)
           (set-frame-width (selected-frame) column-width-margin))
       (progn
