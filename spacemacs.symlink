@@ -568,7 +568,7 @@ layers configuration."
         (add-to-list 'default-frame-alist (cons 'width column-width-margin)))))))
 
 (defun should-fullscreen-at-start()
-  (not (or (string= system-type "windows-nt") (not (window-system)) (> 1 (list-length (display-monitor-attributes-list))))))
+  (not (or (string= system-type "windows-nt") (not (window-system)) (> (list-length (display-monitor-attributes-list)) 1))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
