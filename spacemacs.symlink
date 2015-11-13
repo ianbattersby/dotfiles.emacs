@@ -426,6 +426,9 @@ layers configuration."
     (kbd "C-a") 'move-beginning-of-line)
   (bb/define-key evil-motion-state-map
                  (kbd "<backspace>") 'helm-M-x)
+  (with-eval-after-load 'helm-M-x
+    (bb/define-key helm-map
+      (kbd "C-S-q") 'ace-jump-helm-line-execute-action))
   (evil-leader/set-key
     "ec" 'flycheck-clear
     "os" 'just-one-space
