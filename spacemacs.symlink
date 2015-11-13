@@ -452,7 +452,7 @@ layers configuration."
   (setq ranger-max-preview-size 1)
 
   ;; flycheck
-  (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
+  ;;(setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
 
   ;; deft
   (setq deft-directory "~/Documents/Notes")
@@ -514,11 +514,11 @@ layers configuration."
   (advice-add 'projectile--tags :around #'ao/expand-completion-table)
 )
 
-(defun my-flycheck-pos-tip-error-messages (errors)
-  ;; don't show inline error display when company popup is active
-  (when (not (company-search-mode))
-    (flycheck-pos-tip-error-messages errors))
-  )
+;;(defun my-flycheck-pos-tip-error-messages (errors)
+;;  ;; don't show inline error display when company popup is active
+;;  (when (not (company-search-mode))
+;;    (flycheck-pos-tip-error-messages errors))
+;;  )
 
 (defun ao/expand-completion-table
     (orig-fun &rest args)
