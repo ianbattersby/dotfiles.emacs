@@ -390,6 +390,7 @@ layers configuration."
   (add-hook 'text-mode-hook 'auto-fill-mode)
   (add-hook 'dired-mode-hook 'deer)
   (add-hook 'markdown-mode #'spacemacs/toggle-spelling-checking-on)
+  (add-hook 'prog-mode-hook 'spacemacs/highlight-TODO-words)
 
   ;; utility functions
   (defun bb/define-key (keymap &rest bindings)
