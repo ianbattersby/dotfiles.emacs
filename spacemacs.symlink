@@ -34,6 +34,7 @@ values."
      (syntax-checking :variables syntax-checking-enable-by-default t)
      unimpaired
      version-control
+     yaml
 
      ;; platform conditional layers
      ,@(when (string= system-type "darwin")
