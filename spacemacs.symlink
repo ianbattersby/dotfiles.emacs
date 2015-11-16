@@ -12,7 +12,7 @@ values."
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle
-                      auto-completion-enable-help-tooltip t
+                      ;;auto-completion-enable-help-tooltip t
                       :disabled-for org)
      better-defaults
      emacs-lisp
