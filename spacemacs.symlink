@@ -35,6 +35,7 @@ values."
      unimpaired
      version-control
      yaml
+     (typography :variables typography-enable-typographic-editing t)
 
      ;; platform conditional layers
      ,@(when (string= system-type "darwin")
