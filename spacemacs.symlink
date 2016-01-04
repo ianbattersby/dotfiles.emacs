@@ -24,7 +24,9 @@ values."
      go
      (haskell :variables haskell-enable-ghci-ng-support t)
      html
-     javascript
+     (javascript :variables
+                 js2-basic-offset 2
+                 js-indent-level 2)
      markdown
      (org :variables org-enable-github-support t)
      prodigy
