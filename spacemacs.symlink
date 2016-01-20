@@ -34,7 +34,6 @@ values."
      ruby
      semantic
      (syntax-checking :variables syntax-checking-enable-by-default t)
-     unimpaired
      version-control
      yaml
      (typography :variables typography-enable-typographic-editing t)
