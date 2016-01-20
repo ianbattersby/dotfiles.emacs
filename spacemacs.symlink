@@ -95,8 +95,9 @@ values."
    dotspacemacs-emacs-leader-key "M-m"
    dotspacemacs-major-mode-leader-key ","
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
-   dotspacemacs-command-key ":"
+   dotspacemacs-emacs-command-key ":"
    dotspacemacs-remap-Y-to-y$ t
+   dotspacemacs-ex-substitute-global t
    dotspacemacs-default-layout-name "Home"
    dotspacemacs-display-default-layout nil
    dotspacemacs-auto-resume-layouts nil
