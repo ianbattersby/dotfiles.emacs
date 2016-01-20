@@ -312,7 +312,6 @@ layers configuration. You are free to put any user code."
   (add-hook 'text-mode-hook 'auto-fill-mode)
   (add-hook 'dired-mode-hook 'deer)
   (add-hook 'markdown-mode #'spacemacs/toggle-spelling-checking-on)
-  (add-hook 'prog-mode-hook 'spacemacs/highlight-TODO-words)
   (add-hook 'LaTeX-mode-hook (lambda () (typo-mode -1)) 'append)
 
   ;; utility functions
@@ -363,12 +362,6 @@ layers configuration. You are free to put any user code."
   (set-frame-parameter (selected-frame) 'alpha
                        (list dotspacemacs-active-transparency
                              dotspacemacs-inactive-transparency))
-
-  ;; Text objects
-  (spacemacs|define-text-object "/" "slash" "/" "/")
-  (spacemacs|define-text-object "_" "underscore" "_" "_")
-  (spacemacs|define-text-object "~" "tilde" "~" "~")
-  (spacemacs|define-text-object "=" "equal" "=" "=")
 
   ;; Diminish
   (when (eq 'hybrid dotspacemacs-editing-style)
