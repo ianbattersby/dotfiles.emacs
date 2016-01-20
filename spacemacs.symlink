@@ -77,9 +77,10 @@ values."
    dotspacemacs-always-show-changelog t
    dotspacemacs-startup-lists '(bookmarks projects recents)
    dotspacemacs-startup-recent-list-size 5
-   dotspacemacs-themes '(monokai
+   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-themes '(spacemacs-light
                          spacemacs-dark
-                         spacemacs-light
+                         monokai
                          solarized-light
                          solarized-dark
                          leuven
